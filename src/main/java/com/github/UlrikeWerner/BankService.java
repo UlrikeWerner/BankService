@@ -1,10 +1,7 @@
 package com.github.UlrikeWerner;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class BankService {
     Set<Account> accounts = new HashSet<>();
@@ -17,7 +14,7 @@ public class BankService {
         this.accounts = accounts;
     }
 
-    public UUID openNewAccount(Client client){
+    public UUID openNewAccount(List<Client> client){
         Account newClient = new Account(UUID.randomUUID(), client);
         accounts.add(newClient);
         return newClient.getAccountNumber();

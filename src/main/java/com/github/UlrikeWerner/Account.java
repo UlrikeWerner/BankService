@@ -1,21 +1,22 @@
 package com.github.UlrikeWerner;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 public class Account {
     private UUID accountNumber;
     private BigDecimal balance;
-    Client client;
+    List<Client> client;
 
-    public Account(UUID accountNumber, Client client){
+    public Account(UUID accountNumber, List<Client> client){
         this.accountNumber = accountNumber;
         balance = new BigDecimal("0.0");
         this.client = client;
     }
 
-    public Account(UUID accountNumber, BigDecimal balance, Client client){
+    public Account(UUID accountNumber, BigDecimal balance, List<Client> client){
         this.accountNumber = accountNumber;
         this.balance = balance;
         this.client = client;
@@ -37,11 +38,11 @@ public class Account {
         this.balance = balance;
     }
 
-    public Client getClient() {
+    public List<Client> getClient() {
         return client;
     }
 
-    public void setClient(Client client) {
+    public void setClient(List<Client> client) {
         this.client = client;
     }
 
