@@ -26,10 +26,10 @@ public class BankService {
     public void transferCash(UUID bankNumberSender, BigDecimal money, UUID bankNumberReceiver){
         for(Account account : accounts){
             if(account.getAccountNumber() == bankNumberSender){
-                account.setBalance(account.getBalance().subtract(money));
+                account.withdrawCash(money);
             }
             if(account.getAccountNumber() == bankNumberReceiver){
-                account.setBalance(account.getBalance().add(money));
+                account.depositCash(money);
             }
         }
     }
