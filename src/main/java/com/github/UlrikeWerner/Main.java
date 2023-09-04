@@ -16,7 +16,13 @@ public class Main {
         UUID maxUuid = moinBank.openNewAccount(maxAndMoritz);
         UUID hiepUuid = moinBank.openNewAccount(hiep);
         System.out.println(moinBank);
+        System.out.println("--------------------------------------------");
         moinBank.transferCash(maxUuid, new BigDecimal("100.00"), hiepUuid);
         System.out.println(moinBank);
+
+        System.out.println("--------------------------------------------");
+        List<UUID> newAccoutList = moinBank.splitAccounts(maxUuid);
+        System.out.println(newAccoutList);
+        System.out.println(moinBank.getAccountByUUID(newAccoutList.get(1)).getBalance());
     }
 }

@@ -1,6 +1,7 @@
 package com.github.UlrikeWerner;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 public class BankService {
@@ -20,15 +21,34 @@ public class BankService {
         return newClient.getAccountNumber();
     }
 
-    public void transferCash(UUID bankNumberSender, BigDecimal money, UUID bankNumberReceiver){
-        for(Account account : accounts){
-            if(account.getAccountNumber() == bankNumberSender){
-                account.withdrawCash(money);
-            }
-            if(account.getAccountNumber() == bankNumberReceiver){
-                account.depositCash(money);
+    public Account getAccountByUUID(UUID accountNumber){
+        for(Account account : accounts) {
+            if(account.getAccountNumber() == accountNumber){
+                return account;
             }
         }
+        return null;
+    }
+
+    public void transferCash(UUID accountNumberSender, BigDecimal money, UUID accountNumberReceiver){
+        getAccountByUUID(accountNumberSender).withdrawCash(money);
+        getAccountByUUID(accountNumberReceiver).depositCash(money);
+    }
+
+    public List<UUID> splitAccounts(UUID accountNumber){
+        List<UUID> newAccountNumbers = new ArrayList<>();
+
+        Account account = getAccountByUUID(accountNumber);
+        BigDecimal numberOfNewAccounts = BigDecimal.valueOf(account.client.size());
+        BigDecimal moneyEach = account.getBalance().divide(numberOfNewAccounts, RoundingMode.HALF_DOWN);
+        for(Client client : account.client){
+            List<Client> newClient = new ArrayList<>();
+            newClient.add(client);
+            UUID newClientUuid = openNewAccount(newClient);
+            getAccountByUUID(newClientUuid).setBalance(moneyEach);
+            newAccountNumbers.add(newClientUuid);
+        }
+        return newAccountNumbers;
     }
 
     @Override
